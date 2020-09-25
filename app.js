@@ -9,11 +9,11 @@ const mongoose = require('mongoose');
 //require path to the end points
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
-
+const cors = require('cors');
 //use express middlewere to the end point of the path
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
-
+app.use(cors());
 // Connection URL to dot env
 const url = process.env.DATAURI;
 // Database Name
