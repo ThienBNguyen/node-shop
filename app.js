@@ -1,8 +1,10 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+
 const express = require('express');
 const app = express();
+const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -10,6 +12,7 @@ const mongoose = require('mongoose');
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 const cors = require('cors');
+app.use(cors());
 //use express middlewere to the end point of the path
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
@@ -31,7 +34,8 @@ mongoose.connect(
 );
 
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

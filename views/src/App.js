@@ -1,77 +1,85 @@
 import React, { Component } from 'react';
 import './App.css';
-
+// import menu from '../../uploads/2020-09-25T01-45-07.223Zmenu-1.jpg';
 import axios from 'axios';
+// import { response } from '../../app';
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { name: '', price: 0 };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.handleInputChange = this.handleInputChange.bind(this);
+  state = {
+    productImage: null,
+    name: '',
+    price: 0,
+    products: [],
+  };
+  handleGetProduct = () => {
+    axios
+      .get('http://localhost:3000/products')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ products: response.data.products });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  componentDidMount() {
+    this.handleGetProduct();
   }
-
-  handleChange(event) {
+  // componentDidUpdate() {
+  //   this.handleGetProduct();
+  // }
+  handleChange = (event) => {
     this.setState({ name: event.target.value });
-  }
-  handleInputChange(event) {
+  };
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
       [name]: value,
     });
-  }
-
-  handleSubmit(event) {
-    // alert('A name was submitted: ' + this.state.name + this.state.price);
-    event.preventDefault();
-    const file = document.getElementById('inputGroupFile01').files;
-    const formData = new FormData();
-
-    formData.append('img', file[0]);
-
-    fetch('http://localhost:5000/products', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: formData,
-    }).then((r) => {
-      console.log(r);
-    });
-    console.log(file[0]);
-    // document
-    //   .getElementById('img')
-    //   .setAttribute('src', `http://localhost:5000/${file[0].name}`);
-  }
-  Post = (e) => {
-    e.preventDefault();
-    const file = document.getElementById('inputGroupFile01').files;
-    const formData = new FormData();
-
-    formData.append('img', file[0]);
-
-    fetch('http://localhost:5000/products', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: formData,
-    }).then((r) => {
-      console.log(r);
-    });
-    console.log(file[0]);
-    // document
-    //   .getElementById('img')
-    //   .setAttribute('src', `http://localhost:5000/${file[0].name}`);
   };
+  fileSelectedHandler = (event) => {
+    console.log(event.target.files[0]);
+    this.setState({
+      productImage: event.target.files[0],
+    });
+  };
+  handleSubmit = (event) => {
+    console.log(this.state.products);
 
+    console.log(this.state);
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('productImage', this.state.productImage);
+    formData.append('name', this.state.name);
+    formData.append('price', this.state.price);
+    axios
+      .post('http://localhost:3000/products', formData)
+      .then((res) => {
+        console.log(res);
+        console.log(res.statusText);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  productList() {
+    return this.state.products.map((currentproduct) => {
+      return (
+        <div>
+          <h1>{currentproduct.name}</h1>
+          <h1>{currentproduct.price}</h1>
+          <h1>{currentproduct.productImage}</h1>
+          <img
+            src={'http://localhost:3000/' + currentproduct.productImage}
+            alt="asdfsdf"
+          ></img>
+          {/* <img src={menu} alt="asdfsdf"></img> */}
+        </div>
+      );
+    });
+  }
   render() {
     return (
       <div>
@@ -107,46 +115,26 @@ export default class App extends Component {
               <div className="custom-file">
                 <input
                   type="file"
+                  name="img"
                   className="custom-file-input"
                   id="inputGroupFile01"
                   aria-describedby="inputGroupFileAddon01"
+                  onChange={this.fileSelectedHandler}
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">
                   Choose file
                 </label>
               </div>
             </div>
-            <input type="submit" value="Submit" />
+            <input
+              type="submit"
+              value="Submit"
+              onClick={this.handleGetProduct}
+            />
           </form>
         </div>
-        {/* <img
-          id="img"
-          style={{
-            display: 'block',
-          }}
-        ></img> */}
-        {/* <img src={`/uploads/${img.img.path}`} /> */}
+        {this.productList()}
       </div>
     );
   }
-}
-{
-  /* <div>
-  <h3>Create New Product</h3>
-  <form onSubmit={this.onSubmit}>
-    <div className="form-group">
-      <label>Username: </label>
-      <input
-        type="text"
-        required
-        className="form-control"
-        value={this.state.username}
-        onChange={this.onChangeUsername}
-      />
-    </div>
-    <div className="form-group">
-      <input type="submit" value="Create User" className="btn btn-primary" />
-    </div>
-  </form>
-</div>; */
 }

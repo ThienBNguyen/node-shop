@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/');
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
     const now = new Date().toISOString();
@@ -16,7 +15,7 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
   // reject a file
-  if (file.mimeType === 'image/jpeg' || file.mimeType === 'image/png') {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
     cb(null, false);
@@ -48,7 +47,7 @@ router.get('/', (req, res, next) => {
             _id: doc._id,
             request: {
               type: 'GET',
-              url: 'http://localhost:5000/products/' + doc._id,
+              url: 'http://localhost:3000/products/' + doc._id,
             },
           };
         }),
@@ -71,11 +70,13 @@ router.get('/', (req, res, next) => {
 
 router.post('/', upload.single('productImage'), (req, res, next) => {
   console.log(req.file.path);
+  let fileUrl = req.file.path.replace(/\\/g, '/');
+
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
-    productImage: req.file.path,
+    productImage: fileUrl,
   });
   product
     .save()
@@ -89,7 +90,7 @@ router.post('/', upload.single('productImage'), (req, res, next) => {
           _id: result._id,
           request: {
             type: 'GET',
-            url: 'http://localhost:5000/products/' + result._id,
+            url: 'http://localhost:3000/products/' + result._id,
           },
         },
       });
@@ -114,7 +115,7 @@ router.get('/:productId', (req, res, next) => {
           product: doc,
           request: {
             type: 'GET',
-            url: 'http://localhost:5000/products',
+            url: 'http://localhost:3000/products',
           },
         });
       } else {
@@ -142,7 +143,7 @@ router.patch('/:productId', (req, res, next) => {
         message: 'Product updated',
         request: {
           type: 'GET',
-          url: 'http://localhost:5000/products/' + id,
+          url: 'http://localhost:3000/products/' + id,
         },
       });
     })
@@ -163,7 +164,7 @@ router.delete('/:productId', (req, res, next) => {
         message: 'Product deleted',
         request: {
           type: 'POST',
-          url: 'http://localhost:5000/products',
+          url: 'http://localhost:3000/products',
           body: { name: 'String', price: 'Number' },
         },
       });

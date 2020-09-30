@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
             quantity: doc.quantity,
             request: {
               type: 'GET',
-              url: 'http://localhost:5000/orders/' + doc._id,
+              url: 'http://localhost:3000/orders/' + doc._id,
             },
           };
         }),
@@ -60,7 +60,7 @@ router.post('/', (req, res, next) => {
         },
         request: {
           type: 'GET',
-          url: 'http://localhost:5000/orders/' + result._id,
+          url: 'http://localhost:3000/orders/' + result._id,
         },
       });
     })
@@ -86,7 +86,7 @@ router.get('/:orderId', (req, res, next) => {
         order: order,
         request: {
           type: 'GET',
-          url: 'http://localhost:5000/orders',
+          url: 'http://localhost:3000/orders',
         },
       });
     })
@@ -105,7 +105,7 @@ router.delete('/:orderId', (req, res, next) => {
         message: 'Order deleted',
         request: {
           type: 'POST',
-          url: 'http://localhost:5000/orders',
+          url: 'http://localhost:3000/orders',
           body: { productId: 'ID', quantity: 'Number' },
         },
       });
