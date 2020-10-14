@@ -11,16 +11,14 @@ const mongoose = require('mongoose');
 //require path to the end points
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/user');
 const cors = require('cors');
 app.use(cors());
-//use express middlewere to the end point of the path
-app.use('/products', productRoutes);
-app.use('/orders', orderRoutes);
-app.use(cors());
+
 // Connection URL to dot env
 const url = process.env.DATAURI;
 // Database Name
-
+mongoose.set('useCreateIndex', true);
 // Use connect method to connect to the server
 mongoose.connect(
   url,
@@ -52,9 +50,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes which should handle requests
+//use express middlewere to the end point of the path
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/user', userRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Not found');

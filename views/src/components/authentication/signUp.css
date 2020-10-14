@@ -1,0 +1,378 @@
+body {
+  background: rgb(0, 254, 255);
+  background: linear-gradient(
+    45deg,
+    rgba(0, 254, 255, 1) 5%,
+    rgba(9, 58, 121, 0.6362920168067228) 35%,
+    rgba(244, 0, 255, 1) 100%
+  );
+}
+
+.signup {
+  margin: 0 auto;
+  width: 50%;
+  height: 75%;
+  margin-top: 100px;
+  text-align: center;
+  background: linear-gradient(
+    80deg,
+    rgba(0, 254, 255, 1) 5%,
+    rgba(9, 58, 121, 0.6362920168067228) 35%,
+    rgba(244, 0, 255, 1) 100%
+  );
+}
+
+.social {
+  padding: 120px 20px 0 20px;
+}
+
+.social button {
+  width: 33.3%;
+  height: 50px;
+  border: none;
+  font-size: 1.2em;
+  color: white;
+}
+
+.fab {
+  padding-right: 25px;
+}
+
+.social button:first-child {
+  background-color: rgb(52, 52, 196);
+}
+
+.social button:nth-child(2) {
+  background-color: rgb(103, 159, 223);
+}
+
+.social button:nth-child(3) {
+  background-color: rgb(243, 57, 57);
+}
+
+.form {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+}
+
+.form input {
+  height: 50px;
+  border: none;
+  margin: 10px 0 10px 0;
+  padding: 10px;
+}
+
+.test input {
+  width: 49.7%;
+  /* background-color: red; */
+  margin-left: 1px;
+}
+
+.submit {
+  height: 50px;
+  background-color: green;
+  border: none;
+}
+
+button,
+input {
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1024px) {
+  .signup {
+    width: 70%;
+    margin-top: 150px;
+  }
+
+  .test input {
+    width: 49.6%;
+    /* background-color: red; */
+    margin-left: 1px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .signup {
+    width: 70%;
+    margin-top: 150px;
+  }
+
+  .test input {
+    width: 49%;
+    /* background-color: red; */
+    margin-left: 1px;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  .signup {
+    /* z-index: 2s; */
+    margin-top: 0px;
+    text-align: center;
+    width: 100%;
+    /* margin-top: 150px; */
+    /* background-color: none; */
+    height: 100%;
+  }
+
+  .social {
+    display: flex;
+    flex-direction: column;
+    padding: 35px 20px 10px 20px;
+  }
+
+  .social button {
+    padding-left: 30px;
+    text-align: left;
+    width: 100%;
+    height: 50px;
+    border: none;
+    font-size: 1.2em;
+    color: white;
+  }
+
+  .form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+  }
+
+  .test input {
+    width: 49%;
+    /* background-color: red; */
+    margin-left: 1px;
+  }
+
+  .submit {
+    margin: 10px 0 10px 0;
+    height: 50px;
+    background-color: green;
+    width: 100%;
+  }
+}
+
+/* body {
+  background: rgb(0, 254, 255);
+  background: linear-gradient(
+    45deg,
+    rgba(0, 254, 255, 1) 5%,
+    rgba(9, 58, 121, 0.6362920168067228) 35%,
+    rgba(244, 0, 255, 1) 100%
+  );
+}
+
+.container {
+  background-color: white;
+  width: 25%;
+  border-radius: 10px;
+  height: 80%;
+  margin: 90px auto;
+}
+
+h1 {
+  text-align: center;
+  padding: 40px;
+  font-size: 2.5em;
+  font-weight: bolder;
+}
+
+.form {
+  width: 80%;
+  padding-left: 40px;
+  color: rgb(175, 186, 196);
+  font-weight: lighter;
+}
+
+.form input {
+  border: none;
+  outline: none;
+  padding: 5px;
+}
+
+.forgot {
+  text-align: center;
+  text-decoration: none;
+  color: rgb(175, 186, 196);
+  float: right;
+}
+
+.login {
+  margin: 50px;
+  width: 75%;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: white;
+  background: rgb(0, 254, 255);
+  background: linear-gradient(
+    80deg,
+    rgba(0, 254, 255, 1) 5%,
+    rgba(9, 58, 121, 0.6362920168067228) 35%,
+    rgba(244, 0, 255, 1) 100%
+  );
+}
+
+.sign-up {
+  text-align: center;
+  color: rgb(175, 186, 196);
+}
+
+.social {
+  font-size: 2em;
+}
+
+.social i {
+  padding: 10px;
+  margin: 5px;
+}
+
+.fab {
+  border-radius: 50%;
+}
+
+.fa-facebook-square {
+  background-color: blue;
+  color: white;
+}
+
+.fa-twitter {
+  color: white;
+  background-color: rgb(103, 159, 223);
+}
+
+.fa-google {
+  background-color: rgb(243, 57, 57);
+  color: white;
+}
+
+.account {
+  text-align: center;
+  margin-top: 150px;
+  padding-bottom: 50px;
+}
+
+.account a {
+  text-decoration: none;
+  color: black;
+}
+
+@media only screen and (max-width: 1600px) {
+  .container {
+    width: 30%;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .container {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .container {
+    width: 100%;
+  }
+}
+
+/* forgot css */
+
+/* body {
+  background: rgb(0, 254, 255);
+  background: linear-gradient(
+    45deg,
+    rgba(0, 254, 255, 1) 5%,
+    rgba(9, 58, 121, 0.6362920168067228) 35%,
+    rgba(244, 0, 255, 1) 100%
+  );
+}
+
+.container {
+  margin: 50% auto;
+  text-align: center;
+  background-color: azure;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  padding: 15px;
+}
+
+form {
+  width: 70%;
+  margin: 0 auto;
+}
+
+input {
+  border: none;
+  display: block;
+  margin: 0 auto;
+  background-color: transparent;
+  width: 90%;
+  padding: 5px;
+}
+
+button {
+  display: block;
+}
+
+.submit {
+  width: 100%;
+  margin: 10px 0;
+  height: 25px;
+  border: none;
+  text-transform: uppercase;
+  color: white;
+  background-color: red;
+}
+
+.cancel {
+  margin: 0 auto;
+  background-color: transparent;
+  border: none;
+  padding: 5px 0 20px 0;
+  text-transform: capitalize;
+}
+
+@media only screen and (min-width: 1024px) {
+  .container {
+    margin: 50% auto;
+    text-align: center;
+    background-color: azure;
+    width: 60%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    margin: 50% auto;
+    text-align: center;
+    background-color: azure;
+    width: 70%;
+  }
+}  */
