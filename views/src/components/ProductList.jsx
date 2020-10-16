@@ -2,17 +2,39 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Card';
+import SignIn from './authentication/SignIn'
+import SignUp from './authentication/SignUp'
+import {Link } from "react-router-dom";
+const accessToken = JSON.parse(localStorage.getItem('user'))
+
+const authAxios = axios.create({
+  // baseURL: 'http://localhost:3000',
+  headers: {
+    'auth-token': accessToken,
+    'Content-Type': 'application/json'
+  }
+})
 export default class ProductForm extends Component {
   state = {
     productImage: null,
-    name: '',
-    content: '',
-    price: 0,
+    name: 'test',
+    content: 'test',
+    price: 2,
     products: [],
+    
+
   };
 
+
+  logOut = () =>{
+    localStorage.removeItem('user')
+    window.location.reload(false);
+  }
   handleGetProduct = () => {
-    axios
+    
+
+  
+    authAxios
       .get('http://localhost:3000/products')
       .then((response) => {
         console.log(response.data);
@@ -25,9 +47,7 @@ export default class ProductForm extends Component {
   componentDidMount() {
     this.handleGetProduct();
   }
-  // componentDidUpdate() {
-  //   this.handleGetProduct();
-  // }
+
   handleChange = (event) => {
     this.setState({ name: event.target.value });
   };
@@ -49,36 +69,20 @@ export default class ProductForm extends Component {
     });
   };
   
-  handleSubmit = (event) => {
-    console.log(this.state.products);
-    const token = localStorage.getItem('jwt')
-    console.log(`Bearer ${token}`)
-
-    const authAxios = axios.create({
-    
-      headers:{
-        Authorization: `Bearer ${token}`
-      }
-    })
-    console.log(this.state);
+  handleSubmit = async(event) => {
     event.preventDefault();
+    
+
     const formData = new FormData();
     formData.append('productImage', this.state.productImage);
     formData.append('name', this.state.name);
     formData.append('price', this.state.price);
     formData.append('content', this.state.content);
     
-    let axiosConfig = {
-      headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          "Access-Control-Allow-Origin": "*",
-          "Authorization": `Bearer ${token}`
-      }
-    };
-    // axios.defaults.headers.common['Authorization'] = response.data.auth_token;
-    // dispatch({ type: AUTHENTICATED });
-    axios
-      .post('http://localhost:3000/products',{ headers: {"Authorization" : `Bearer ${token}`} }, formData)
+   
+
+    await authAxios
+      .post('http://localhost:3000/products',  formData)
       .then((res) => {
         console.log(res);
         console.log(res.statusText);
@@ -137,6 +141,21 @@ export default class ProductForm extends Component {
   render() {
     return (
       <div>
+        <div>
+        <Link to="/signin"><button>
+              log in
+            </button>
+            </Link>    
+            <Link to="/signup"><button>
+              register
+            </button>
+            </Link>
+        </div>
+        <input
+              type="submit"
+              value="logout"
+              onClick={this.logOut}
+            />
         <div className="container">
           <div className="jumbotron">
             <h1 className="display-4">Product upload</h1>

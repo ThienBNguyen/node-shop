@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import {Link } from "react-router-dom";
 export default class SignIn extends Component {
     state={
-        email: '',
-        password: '',
-        token: ''
+        email: 'test@test.com',
+        password: 'tester',
     }
     onChangeEmail = (event) =>{
         this.setState({email: event.target.value})
@@ -26,11 +26,9 @@ let axiosConfig = {
     }
   };
 await axios.post('http://localhost:3000/user/login', userData, axiosConfig).then((res) =>{
-    console.log(res.data)
 
-    localStorage.setItem('jwt', res.data.token)
-    // axios.defaults.headers.common['Authorization'] = res.data.token;
-    // dispatch({ type: AUTHENTICATED });
+    localStorage.setItem('user', JSON.stringify(res.data.token))
+    window.location.href = "/"
 
 }).catch((error) =>{
     console.log(error)
@@ -45,7 +43,7 @@ await axios.post('http://localhost:3000/user/login', userData, axiosConfig).then
         <div className="user form">
             <h3>Username</h3>
             <p>
-                <i className="fas fa-user "></i><input type="text" placeholder="  Type your email" value={this.state.value} onChange={this.onChangeEmail}/>
+                <i className="fas fa-user "></i><input type="text" placeholder="  Type your email" value={this.state.email} onChange={this.onChangeEmail}/>
             </p>
 
             <hr/>
@@ -63,8 +61,11 @@ await axios.post('http://localhost:3000/user/login', userData, axiosConfig).then
             <p  className="forgot">Forgot password?</p>
         </div>
 
-        <form action="">
-            <button className="login" onClick={this.handleSubmit}>Login</button>
+        <form>
+          
+                <button className="login" onClick={this.handleSubmit}>Login</button>
+            
+            
 
         </form>
         <div className="sign-up">
@@ -77,7 +78,9 @@ await axios.post('http://localhost:3000/user/login', userData, axiosConfig).then
             <p>
                 have not account yet?
             </p>
-            <a href="#">SIGN UP</a>
+            <Link to="/signup"> <a href="#">SIGN UP</a></Link>
+           
+           
         </div>
 
     </div>

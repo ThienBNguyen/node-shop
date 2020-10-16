@@ -1,13 +1,20 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import style from './signUp.css'
+const headerAuxios = axios.create({
+  // baseURL: 'http://localhost:3000',
+  headers: {
+    // 'auth-token': accessToken,
+    'Content-Type': 'application/json'
+  }
+})
 export default class SignUp extends Component {
   state ={
-    firstName: '',
-    lastName: '',
+    firstName: 'test',
+    lastName: 'test',
     email: '',
-    password: '',
-    retype: ''
+    password: 'tester',
+    retype: 'tester'
   }
 onChangeFirstName = (event) =>{
   this.setState({firstName: event.target.value})
@@ -32,23 +39,22 @@ const userObject = {
     email: this.state.email,
     password: this.state.password,
 }
-console.log(userObject)
-let axiosConfig = {
-  headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      "Access-Control-Allow-Origin": "*",
-  }
-};
-let data = JSON.stringify(userObject)
-    axios.post('http://localhost:3000/user/signup',userObject, axiosConfig).then((res) => {
+// console.log(userObject)
+// let axiosConfig = {
+//   headers: {
+//       'Content-Type': 'application/json'
+//   }
+// };
+// let data = JSON.stringify(userObject)
+    headerAuxios.post('http://localhost:3000/user/signup', userObject).then((res) => {
       console.log(res.data)
     }).catch((error) =>{
       console.log(error)
     })
-    this.setState({ firstName: '',
-    lastName: '',
-    email: '',
-    password: '',})
+    // this.setState({ firstName: '',
+    // lastName: '',
+    // email: '',
+    // password: '',})
   }
   render() {
     return  (
