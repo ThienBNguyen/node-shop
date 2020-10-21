@@ -9,17 +9,19 @@ import SignUp from './components/authentication/SignUp';
 
 import ProductEdit from './components/ProductEdit';
 import ProductList from './components/ProductList';
+import Cart from './components/shopping/Cart'
+import NavBar from './components/NavBar/NavBar'
 export default class App extends Component {
   render() {
     return (
       <Router>
         <div className="container">
-          {/* <Navbar /> */}
           <br />
           <Route path="/" exact component={ProductList} />
           <Route path="/edit/:id" component={ProductEdit} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signin" component={SignIn} />
+          <Route path="/cart" component={Cart} />
         </div>
       </Router>
     );

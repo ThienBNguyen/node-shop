@@ -6,15 +6,20 @@ const Product = require('../models/product');
 exports.orders_get_all = (req, res, next) => {
   Order.find()
     .select('product quantity _id')
-    .populate('product', 'name')
+    .populate('product', 'name productImage price')
     .exec()
     .then((docs) => {
+
       res.status(200).json({
         count: docs.length,
         orders: docs.map((doc) => {
+          console.log(doc)
+
           return {
+            
             _id: doc._id,
             product: doc.product,
+          
             quantity: doc.quantity,
             request: {
               type: 'GET',
@@ -93,7 +98,39 @@ exports.orders_get_order = (req, res, next) => {
       });
     });
 };
-
+exports.orders_edit_order = (req, res, next) => {
+  const id = req.params.orderId;
+  console.log(req.body)
+  const item = req.body
+  const updateCart = {}
+  // for (const ops of req.body){
+  //   updateCart[ops.propName] = ops.value
+  // }
+  for(const key of Object.keys(item)){
+    // console.log(key)
+    // console.log(item[key])
+    // updateCart = item[key]
+    updateCart[key] = item[key]
+    console.log(updateCart)
+  }
+  Order.update({_id: id}, {$set: updateCart})
+    .exec()
+    .then((order) => {
+      
+      res.status(200).json({
+        message: 'order updated',
+        request: {
+          type: 'GET',
+          url: 'http://localhost:3000/orders/' + id,
+        },
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
 exports.orders_delete_order = (req, res, next) => {
   Order.remove({ _id: req.params.orderId })
     .exec()

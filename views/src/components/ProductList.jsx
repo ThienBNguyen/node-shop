@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Card';
-import SignIn from './authentication/SignIn'
-import SignUp from './authentication/SignUp'
+import NavBar from './NavBar/NavBar'
 import {Link } from "react-router-dom";
 const accessToken = JSON.parse(localStorage.getItem('user'))
 
@@ -21,19 +20,13 @@ export default class ProductForm extends Component {
     content: 'test',
     price: 2,
     products: [],
-    
+    cart: []
 
   };
 
 
-  logOut = () =>{
-    localStorage.removeItem('user')
-    window.location.reload(false);
-  }
-  handleGetProduct = () => {
-    
 
-  
+  handleGetProduct = () => {
     authAxios
       .get('http://localhost:3000/products')
       .then((response) => {
@@ -79,7 +72,6 @@ export default class ProductForm extends Component {
     formData.append('price', this.state.price);
     formData.append('content', this.state.content);
     
-   
 
     await authAxios
       .post('http://localhost:3000/products',  formData)
@@ -91,24 +83,24 @@ export default class ProductForm extends Component {
         console.log(err);
       });
   };
-  handleDelete = (event) => {
-    event.preventDefault();
+  handleDelete = async(productId) => {
 
-    axios
-      .patch('http://localhost:3000/products' + this.props.match.params.id)
-      .then((response) => {
-        this.setState({
-          name: response.data.name,
-          content: response.data.content,
-          price: response.data.price,
-        });
+    const currentProducts = this.state.products
+    this.setState({
+      products: currentProducts.filter(product => product._id !== productId)
+    })
+      await authAxios.delete('http://localhost:3000/products/' + productId)
+      .then((res) => {
+       console.log(res, 'item deleted')
       })
-      .catch(function (error) {
+      .catch( (error) => {
         console.log(error);
       });
   };
   productList() {
     return this.state.products.map((currentproduct, i) => {
+      console.log(currentproduct)
+
       return (
         <Card
           key={i}
@@ -126,10 +118,13 @@ export default class ProductForm extends Component {
             <Card.Title>{currentproduct.name}</Card.Title>
             <Card.Text>{currentproduct.content}</Card.Text>
             <p>{currentproduct.price}</p>
+            <Button variant="primary" onClick={(e) => this.addToCard(currentproduct._id)}>
+              Add Item 
+            </Button>{' '}
             <Button variant="primary" onClick={this.handleEdit}>
               EDIT
             </Button>{' '}
-            <Button variant="danger" onClick={this.handleDelete}>
+            <Button variant="danger" onClick={(e) => {this.handleDelete(currentproduct._id)}}>
               DELETE
             </Button>
           </Card.Body>{' '}
@@ -138,19 +133,38 @@ export default class ProductForm extends Component {
     });
   }
 
+  addToCard = async (id, quantity) => {
+try {
+  const response = await fetch('http://localhost:3000/orders', {
+    method: "POST",
+    body: JSON.stringify({
+      productId: id,
+      quantity: quantity,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      'auth-token': accessToken,
+    },
+  });
+  console.log(id)
+  let data = await response.json();
+
+  console.log("Item Added To Cart");
+  console.log(data);
+} catch (err) {
+  alert("Something Went Wrong");
+  console.log(err);
+}
+
+
+  }
   render() {
     return (
       <div>
-        <div>
-        <Link to="/signin"><button>
-              log in
-            </button>
-            </Link>    
-            <Link to="/signup"><button>
-              register
-            </button>
-            </Link>
-        </div>
+          <NavBar />
+
+   
+        
         <input
               type="submit"
               value="logout"
